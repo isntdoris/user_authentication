@@ -12,7 +12,7 @@
     />
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'home' %}">Authentication App</a>
         <button
@@ -26,17 +26,42 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'login' %}">Login</a>
-            </li>
-          </ul>
-        </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="#">Logout</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+          {% endif %}
+        </ul>
       </div>
     </nav>
     <br />
-    <div class="container">{% block content %} {% endblock content %}</div>
+    <div class="container">
+      {% if messages %} {% for message in messages %}
+      <div class="alert alert-warning alert-dismissable fade show" role="alert">
+        <button
+          type="button"
+          class="close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+          style="
+            border: none;
+            background: transparent;
+            color: inherit;
+            font-size: inherit;
+          "
+        >
+          <small><sup>x</sup></small>
+        </button>
+        {{ message }}
+      </div>
+      {% endfor %} {% endif %} {% block content %} {% endblock content %}
+    </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
